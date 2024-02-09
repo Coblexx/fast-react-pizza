@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { Form, redirect, useNavigate, useNavigation } from "react-router-dom";
+import {
+  Form,
+  redirect,
+  useActionData,
+  useNavigate,
+  useNavigation,
+} from "react-router-dom";
 import { createOrder } from "../../services/apiRestaurant";
 
 // https://uibakery.io/regex-library/phone-number
@@ -35,9 +41,11 @@ const fakeCart = [
 function CreateOrder() {
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
-  // const [withPriority, setWithPriority] = useState(false);
   const cart = fakeCart;
 
+  const formErrors = useActionData();
+
+  // const [withPriority, setWithPriority] = useState(false);
   return (
     <div>
       <h2>Ready to order? Let's go!</h2>
@@ -53,6 +61,7 @@ function CreateOrder() {
           <div>
             <input type="tel" name="phone" required />
           </div>
+          {formErrors?.phone && <p>{formErrors.phone}</p>}
         </div>
 
         <div>
@@ -94,8 +103,11 @@ export async function action({ request }) {
     priority: data.priority === "on",
   };
 
-  const newOrder = await createOrder(order);
+  const errors = {};
+  if (!isValidPhone) errors.phone = "Please enter a correct phone number";
+  if (Object.keys.errors > 0) return errors;
 
+  const newOrder = await createOrder(order);
   return redirect(`/order/${newOrder.id}`);
 }
 
