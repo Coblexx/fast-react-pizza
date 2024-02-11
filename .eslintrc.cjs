@@ -19,5 +19,6 @@ module.exports = {
     ],
     "no-unused-vars": "warn",
     "react/no-unescaped-entities": "warn",
+    "no-undef": "warn",
   },
 };
