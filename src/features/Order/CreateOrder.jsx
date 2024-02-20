@@ -92,7 +92,9 @@ function CreateOrder() {
           >
             {isSubmitting ? "Placing your order" : "Order now"}
           </button> */}
-          <Button>{isSubmitting ? "Placing your order" : "Order now"}</Button>
+          <Button type="primary">
+            {isSubmitting ? "Placing your order" : "Order now"}
+          </Button>
         </div>
       </Form>
     </div>
